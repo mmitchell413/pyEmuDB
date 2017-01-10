@@ -9,7 +9,7 @@ class Configs():
         try:
             self.configs = self.loadConfigs()
             if not bool(self.configs):
-                print("No configs found, initializing configs now")
+                logging.writeLog("No configs found, initializing configs")
                 self.configs = {'n64': {},
                                 'wii': {},
                                 'snes': {},
@@ -18,37 +18,13 @@ class Configs():
                                 'gb': {},
                                 'gbc': {}
                                 }
+                for emu in self.configs:
+                    self.configs[emu] = {'name': '', 'location': '', 'controller': '', 'fullscreen': '', 'platform': ''}
                 self.writeConfigs(self.configs)
+            logging.writeLog("Configs loaded successfully")
         except Exception as inst:
             logging.writeLog("Config loading failed:\n" + str(type(inst)) + "\n" + inst.message)
         return None
-        # file = open('bin/configs', 'r')
-        # logging.writeLog("Loading configs...")
-        # try:
-        #     configs = pickle.load(file)
-        #     logging.writeLog("Config loading complete")
-        #     print bool(configs)
-        #     if not bool(configs):
-        #         print "No configs found"
-        #         configs = { 'wii': {
-        #                         'name': 'Dolphin',
-        #                         'location': 'usr/dolphin',
-        #                         'controller': 'xinput',
-        #                         'fullscreen': True,
-        #                         'platform': 'wii'
-        #                     },
-        #                     'n64': {
-        #                         'name': 'Project 64',
-        #                         'location': 'usr/P64/exe',
-        #                         'controller': 'xinput',
-        #                         'fullscreen': True,
-        #                         'platform': 'n64'
-        #                     }
-        #                 }
-        #         print configs
-        # except Exception as inst:
-        #     logging.writeLog("Config loading failed:\n" + str(type(inst)) + "\n" + inst.message)
-        # return None
 
     def __getitem__(self, i):
         return self.configs[i]
